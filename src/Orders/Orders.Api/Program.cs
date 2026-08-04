@@ -1,4 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using Orders.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<OrdersDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("OrdersDb")));
 
 var app = builder.Build();
 
