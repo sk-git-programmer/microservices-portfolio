@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Orders.Infrastructure;
+using Orders.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
