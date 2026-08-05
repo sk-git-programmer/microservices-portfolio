@@ -13,6 +13,15 @@ public class OrderItem
 
     public OrderItem(string productName, int quantity, decimal unitPrice)
     {
+        if (string.IsNullOrWhiteSpace(productName))
+            throw new ArgumentException("Product name cannot be empty.", nameof(productName));
+
+        if (quantity <= 0)
+            throw new ArgumentException("Quantity must be greater than zero.", nameof(quantity));
+
+        if (unitPrice <= 0)
+            throw new ArgumentException("Unit price must be greater than zero.", nameof(unitPrice));
+
         Id = Guid.NewGuid();
         ProductName = productName;
         Quantity = quantity;

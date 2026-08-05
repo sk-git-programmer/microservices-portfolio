@@ -1,3 +1,4 @@
+using FluentValidation;
 using Orders.Api.Contracts;
 using Orders.Api.Services;
 
@@ -7,8 +8,12 @@ public static class OrdersEndpoints
 {
     public static void MapOrdersEndpoints(this WebApplication app)
     {
-        app.MapPost("/orders", async (CreateOrderRequest request, OrderService orderService, CancellationToken cancellationToken) =>
+        app.MapPost("/orders", async (CreateOrderRequest request, IValidator<CreateOrderRequest> validator, OrderService orderService, CancellationToken cancellationToken) =>
         {
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid)
+                return Results.ValidationProblem(validationResult.ToDictionary());
+
             var response = await orderService.CreateOrderAsync(request, cancellationToken);
             return Results.Created($"/orders/{response.Id}", response);
         });

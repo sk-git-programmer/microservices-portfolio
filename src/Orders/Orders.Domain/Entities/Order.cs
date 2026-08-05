@@ -16,6 +16,9 @@ public class Order
 
     public Order(string customerName)
     {
+        if (string.IsNullOrWhiteSpace(customerName))
+            throw new ArgumentException("Customer name cannot be empty.", nameof(customerName));
+
         Id = Guid.NewGuid();
         CustomerName = customerName;
         Status = OrderStatus.Pending;
