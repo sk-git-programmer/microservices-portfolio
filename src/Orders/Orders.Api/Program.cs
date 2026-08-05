@@ -19,3 +19,5 @@ app.MapGet("/health", () => Results.Ok("OK"));
 app.MapOrdersEndpoints();
 
 app.Run();
+
+public partial class Program { }
