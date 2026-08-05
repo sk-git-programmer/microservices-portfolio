@@ -3,4 +3,15 @@
 GET {{Orders.Api_HostAddress}}/health
 Accept: application/json
 
+### Create order
+POST {{Orders.Api_HostAddress}}/orders
+Content-Type: application/json
+
+{
+  "customerName": "Jan Kowalski",
+  "items": [
+    { "productName": "Widget", "quantity": 2, "unitPrice": 19.99 }
+  ]
+}
+
 ###
