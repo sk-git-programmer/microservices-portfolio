@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Orders.Api.Endpoints;
+using Orders.Api.Services;
 using Orders.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,8 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<OrdersDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("OrdersDb")));
 
+builder.Services.AddScoped<OrderService>();
+
 var app = builder.Build();
 
 app.MapGet("/health", () => Results.Ok("OK"));
+app.MapOrdersEndpoints();
 
 app.Run();
