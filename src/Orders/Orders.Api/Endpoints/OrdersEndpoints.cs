@@ -18,5 +18,11 @@ public static class OrdersEndpoints
             var response = await orderService.GetOrderByIdAsync(id, cancellationToken);
             return response is not null ? Results.Ok(response) : Results.NotFound();
         });
+
+        app.MapGet("/orders", async (OrderService orderService, CancellationToken cancellationToken) =>
+        {
+            var orders = await orderService.GetAllOrdersAsync(cancellationToken);
+            return Results.Ok(orders);
+        });
     }
 }

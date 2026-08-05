@@ -38,4 +38,13 @@ public class OrderService
 
         return order?.ToResponse();
     }
+
+    public async Task<List<OrderResponse>> GetAllOrdersAsync(CancellationToken cancellationToken)
+    {
+        var orders = await _dbContext.Orders
+            .Include(o => o.Items)
+            .ToListAsync(cancellationToken);
+
+        return orders.Select(o => o.ToResponse()).ToList();
+    }
 }
