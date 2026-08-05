@@ -1,4 +1,4 @@
-namespace Orders.Domain;
+namespace Orders.Domain.Entities;
 
 public class OrderItem
 {
@@ -7,7 +7,9 @@ public class OrderItem
     public int Quantity { get; private set; }
     public decimal UnitPrice { get; private set; }
 
-    private OrderItem() { } // EF Core
+    private OrderItem()
+    {
+    }
 
     public OrderItem(string productName, int quantity, decimal unitPrice)
     {
