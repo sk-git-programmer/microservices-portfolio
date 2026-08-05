@@ -8,10 +8,12 @@ namespace Orders.Api.Services;
 public class OrderService
 {
     private readonly OrdersDbContext _dbContext;
+    private readonly ILogger<OrderService> _logger;
 
-    public OrderService(OrdersDbContext dbContext)
+    public OrderService(OrdersDbContext dbContext, ILogger<OrderService> logger)
     {
         _dbContext = dbContext;
+        _logger = logger;
     }
 
     public async Task<OrderResponse> CreateOrderAsync(CreateOrderRequest request, CancellationToken cancellationToken)
@@ -26,6 +28,9 @@ public class OrderService
 
         _dbContext.Orders.Add(order);
         await _dbContext.SaveChangesAsync(cancellationToken);
+
+        _logger.LogInformation("Order {OrderId} created for customer {CustomerName} with {ItemCount} items",
+            order.Id, order.CustomerName, order.Items.Count);
 
         return order.ToResponse();
     }
