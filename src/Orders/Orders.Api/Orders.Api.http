@@ -14,6 +14,17 @@ Content-Type: application/json
   ]
 }
 
+### Create order - invalid (validation should fail)
+POST {{Orders.Api_HostAddress}}/orders
+Content-Type: application/json
+
+{
+  "customerName": "",
+  "items": [
+    { "productName": "Widget", "quantity": -1, "unitPrice": 0 }
+  ]
+}
+
 ### Get order by id
 GET {{Orders.Api_HostAddress}}/orders/{{orderId}}
 Accept: application/json
