@@ -14,4 +14,12 @@ Content-Type: application/json
   ]
 }
 
+### Get order by id
+GET {{Orders.Api_HostAddress}}/orders/{{orderId}}
+Accept: application/json
+
+### Get non-existent order
+GET {{Orders.Api_HostAddress}}/orders/00000000-0000-0000-0000-000000000000
+Accept: application/json
+
 ###

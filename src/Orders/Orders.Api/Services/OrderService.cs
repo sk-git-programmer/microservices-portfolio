@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Orders.Api.Contracts;
 using Orders.Domain.Entities;
 using Orders.Infrastructure.Persistence;
@@ -13,7 +14,7 @@ public class OrderService
         _dbContext = dbContext;
     }
 
-    public async Task<Order> CreateOrderAsync(CreateOrderRequest request, CancellationToken cancellationToken)
+    public async Task<OrderResponse> CreateOrderAsync(CreateOrderRequest request, CancellationToken cancellationToken)
     {
         var order = new Order(request.CustomerName);
 
@@ -26,6 +27,15 @@ public class OrderService
         _dbContext.Orders.Add(order);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return order;
+        return order.ToResponse();
+    }
+
+    public async Task<OrderResponse?> GetOrderByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var order = await _dbContext.Orders
+            .Include(o => o.Items)
+            .FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
+
+        return order?.ToResponse();
     }
 }
