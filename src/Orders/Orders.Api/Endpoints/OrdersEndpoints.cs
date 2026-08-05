@@ -9,8 +9,14 @@ public static class OrdersEndpoints
     {
         app.MapPost("/orders", async (CreateOrderRequest request, OrderService orderService, CancellationToken cancellationToken) =>
         {
-            var order = await orderService.CreateOrderAsync(request, cancellationToken);
-            return Results.Created($"/orders/{order.Id}", order);
+            var response = await orderService.CreateOrderAsync(request, cancellationToken);
+            return Results.Created($"/orders/{response.Id}", response);
+        });
+
+        app.MapGet("/orders/{id:guid}", async (Guid id, OrderService orderService, CancellationToken cancellationToken) =>
+        {
+            var response = await orderService.GetOrderByIdAsync(id, cancellationToken);
+            return response is not null ? Results.Ok(response) : Results.NotFound();
         });
     }
 }
